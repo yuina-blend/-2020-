@@ -35,14 +35,14 @@ QEI rori_angle(PB_14, PB_13, NC, 600, QEI::X4_ENCODING);
 
 void get_rori_pulses(int *);
 bool get_rori_difference(int *, int *);
-void set_duty(char *, char, int, bool, int);
+void set_duty(unsigned char *, unsigned char, int, bool, int);
 void Emergency_check();
-void send(char, char);
-void forward(char *);
-void back(char *);
+void send(char, unsigned char);
+void forward(unsigned char *);
+void back(unsigned char *);
 void stop();
-void angle_left(char);
-void angle_right(char);
+void angle_left(unsigned char);
+void angle_right(unsigned char);
 
 int main()
 {
@@ -50,7 +50,7 @@ int main()
     int rori_pulses[4];
     int rori_difference;
     bool flag;
-    char send_datas[3];
+    unsigned char send_datas[3];
     Emergency_stop = 0;
     while (true)
     {
@@ -71,7 +71,7 @@ int main()
         }
         else if (controller_axis <= -20)
         {
-            //back();
+            // back();
         }
         else
         {
@@ -114,9 +114,9 @@ bool get_rori_difference(int *rori_pulses, int *difference)
     }
 }
 
-void set_duty(char *datas, char target_value, int difference, bool mode, int pulse)
+void set_duty(unsigned char *datas, unsigned char target_value, int difference, bool mode, int pulse)
 {
-    if (mode == true)
+    if (mode)
     {
         for (int i = 0; i < 3; i++)
         {
@@ -130,7 +130,7 @@ void set_duty(char *datas, char target_value, int difference, bool mode, int pul
             }
         }
     }
-    else if (mode == false)
+    else
     {
         for (int i = 0; i < 3; i++)
         {
@@ -163,7 +163,7 @@ void Emergency_check()
     }
 }
 
-void send(char md_address, char send_data)
+void send(char md_address, unsigned char send_data)
 {
     wait_ms(10);
     i2c.start();
@@ -172,7 +172,7 @@ void send(char md_address, char send_data)
     i2c.stop();
 }
 
-void forward(char *datas)
+void forward(unsigned char *datas)
 {
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
@@ -180,7 +180,7 @@ void forward(char *datas)
     }
 }
 
-void back(char *datas)
+void back(unsigned char *datas)
 {
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
@@ -196,12 +196,12 @@ void stop()
     }
 }
 
-void angle_left(char data)
+void angle_left(unsigned char data)
 {
     send(0x40, data);
 }
 
-void angle_right(char data)
+void angle_right(unsigned char data)
 {
     send(0x40, data);
 }
