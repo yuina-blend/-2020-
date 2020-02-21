@@ -56,7 +56,7 @@ int main()
     {
         controller_axis = ps3.getLeftJoystickYaxis();
         get_rori_pulses(rori_pulses);
-        flag = get_rori_difference(rori_pulses, &rori_difference);
+        // flag = get_rori_difference(rori_pulses, &rori_difference);
         Emergency_check();
         for (int i = 0; i < 3; i++)
         {
@@ -64,14 +64,22 @@ int main()
         }
         pc.printf("\n");
         //足回り
-        if (controller_axis >= 20)
+        if (controller_axis > 5)
         {
-            set_duty(send_datas, 200, rori_difference, flag, 75);
+            // set_duty(send_datas, 200, rori_difference, flag, 75);
+            for (int i=0; i<3; i+=1)
+            {
+                send_datas[i] = controller_axis;
+            }
             forward(send_datas);
         }
-        else if (controller_axis <= -20)
+        else if (controller_axis < -5)
         {
-            // back();
+            for (int i=0; i<3; i+=1)
+            {
+                send_datas[i] = controller_axis;
+            }
+            back(send_datas);
         }
         else
         {
@@ -176,23 +184,29 @@ void send(char md_address, unsigned char send_data)
     wait_ms(10);
     i2c.start();
     i2c.write(md_address);
-    i2c.write(send_data); //0x00(最大) ~ 0x7C(最小):逆転,  0x7D ~ 0x83:ショートブレーキ ,0x84(最小) ~ 0xFF(最大):正転
+    i2c.write(send_data);
     i2c.stop();
 }
 
 void forward(unsigned char *datas)
 {
+    float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        send(address, datas[address % 0x10 - 1]);
+        data = datas[address % 0x10 - 1]; // 6~63
+        data = (data / 63.0) * 124 + 132
+        send(address, (unsigned char)data);
     }
 }
 
 void back(unsigned char *datas)
 {
+    float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        send(address, datas[address % 0x10 - 1]);
+        data = datas[address % 0x10 - 1] * (-1.0)// -6~-64
+        data = 124 - (data / 64.0) * 124
+        send(address, (unsigned char)data);
     }
 }
 
