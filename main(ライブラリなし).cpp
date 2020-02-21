@@ -51,7 +51,7 @@ int main()
     int rori_difference;
     bool flag;
     unsigned char send_datas[3];
-    float limit=0.3;
+    float limit=0.1;
     Emergency_stop = 0;
     while (true)
     {
@@ -69,7 +69,7 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)(controller_axis*123.0/64.0*limit);
+                send_datas[i] = (unsigned char)((controller_axis*123.0/64.0+132)*limit);
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
@@ -205,7 +205,7 @@ void forward(unsigned char *datas)
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
         data = datas[address % 0x10 - 1];
-        send(address, data+132);
+        send(address, data);
     }
 }
 
