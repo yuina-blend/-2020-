@@ -92,7 +92,7 @@ void get_rori_pulses(int *rori)
     rori[0] = rori_1.getPulses();
     rori[1] = rori_2.getPulses();
     rori[2] = rori_3.getPulses();
-    rori[4] = rori_angle.getPulses();
+    rori[3] = rori_angle.getPulses();
 }
 
 bool get_rori_difference(int *rori_pulses, int *difference)
@@ -170,7 +170,7 @@ void forward(char *datas)
 {
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        send(address, address[address % 0x10 - 1]);
+        send(address, datas[address % 0x10 - 1]);
     }
 }
 
