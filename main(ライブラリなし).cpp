@@ -202,7 +202,7 @@ void forward(unsigned char *datas)
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
         data = datas[address % 0x10 - 1]; // 6~63
-        data = (data / 63.0) * 124 + 132
+        data = (data / 63.0) * 124 + 132;
         send(address, (unsigned char)data);
         datas[address % 0x10 - 1] = (unsigned char)data;
     }
@@ -213,8 +213,8 @@ void back(unsigned char *datas)
     float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        data = datas[address % 0x10 - 1] * (-1.0)// -6~-64
-        data = 124 - (data / 64.0) * 124
+        data = datas[address % 0x10 - 1] * (-1.0); // -6~-64
+        data = 124 - (data / 64.0) * 124;
         send(address, (unsigned char)data);
         datas[address % 0x10 - 1] = (unsigned char)data;
     }
