@@ -29,7 +29,7 @@ PS3 ps3(D8, D2);
 
 QEI rori_1(PC_6, PC_5, NC, 600, QEI::X4_ENCODING); //600じゃね？
 QEI rori_2(PA_12, PA_11, NC, 600, QEI::X4_ENCODING);
-QEI rori_3(PB_1, PB15, NC, 600, QEI::X4_ENCODING);
+QEI rori_3(PB_1, PB_15, NC, 600, QEI::X4_ENCODING);
 QEI rori_angle(PB_14, PB_13, NC, 600, QEI::X4_ENCODING);
 
 void get_rori_pulses(int *);
