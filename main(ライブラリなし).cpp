@@ -108,7 +108,7 @@ bool get_rori_difference(int *rori_pulses, int *difference)
     {
         return true;
     }
-    else if (*difference < 0)
+    else
     {
         return false;
     }
@@ -124,6 +124,10 @@ void set_duty(unsigned char *datas, unsigned char target_value, int difference, 
             {
                 datas[i] = target_value + difference / pulse;
             }
+            else if (i == 0)
+            {
+                datas[i] = target_value - difference / pulse;
+            } 
             else
             {
                 datas[i] = target_value;
@@ -135,6 +139,10 @@ void set_duty(unsigned char *datas, unsigned char target_value, int difference, 
         for (int i = 0; i < 3; i++)
         {
             if (i == 0)
+            {
+                datas[i] = target_value - difference / pulse;
+            }
+            else if (i == 1)
             {
                 datas[i] = target_value + difference / pulse;
             }
