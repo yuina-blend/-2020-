@@ -71,7 +71,7 @@ int main()
         }
         else if (controller_axis <= -20)
         {
-            //back();
+            back();
         }
         else
         {
@@ -116,7 +116,7 @@ bool get_rori_difference(int *rori_pulses, int *difference)
 
 void set_duty(char *datas, char target_value, int difference, bool mode, int pulse)
 {
-    if (mode == true)
+    if (mode)
     {
         for (int i = 0; i < 3; i++)
         {
@@ -130,7 +130,7 @@ void set_duty(char *datas, char target_value, int difference, bool mode, int pul
             }
         }
     }
-    else if (mode == false)
+    else
     {
         for (int i = 0; i < 3; i++)
         {
