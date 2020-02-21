@@ -35,14 +35,14 @@ QEI rori_angle(PB_14, PB_13, NC, 600, QEI::X4_ENCODING);
 
 void get_rori_pulses(int *);
 bool get_rori_difference(int *, int *);
-void set_duty(char *, char, int, bool, int);
+void set_duty(unsigned char *, unsigned char, int, bool, int);
 void Emergency_check();
-void send(char, char);
-void forward(char *);
-void back(char *);
+void send(char, unsigned char);
+void forward(unsigned char *);
+void back(unsigned char *);
 void stop();
-void angle_left(char);
-void angle_right(char);
+void angle_left(unsigned char);
+void angle_right(unsigned char);
 
 int main()
 {
