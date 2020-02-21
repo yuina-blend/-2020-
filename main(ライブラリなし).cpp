@@ -26,6 +26,7 @@ address
 DigitalOut Emergency_stop(D13); //5Vについてる非常停止ピン用
 I2C i2c(D14, D15);
 PS3 ps3(D8, D2);
+Serial pc(USBTX, USBRX);
 
 QEI rori_1(PC_6, PC_5, NC, 600, QEI::X4_ENCODING); //600じゃね？
 QEI rori_2(PA_12, PA_11, NC, 600, QEI::X4_ENCODING);
@@ -57,6 +58,11 @@ int main()
         get_rori_pulses(rori_pulses);
         flag = get_rori_difference(rori_pulses, &rori_difference);
         Emergency_check();
+        for (int i = 0; i < 3; i++)
+        {
+            pc.printf("\t%d",get_rori_pulses[i]);
+        }
+        pc.printf("\n");
         //足回り
         if (controller_axis >= 20)
         {
