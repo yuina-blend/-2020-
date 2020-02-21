@@ -60,7 +60,7 @@ int main()
         Emergency_check();
         for (int i = 0; i < 3; i++)
         {
-            pc.printf("\t%d",get_rori_pulses[i]);
+            pc.printf("\t%d",rori_pulses[i]);
         }
         pc.printf("\n");
         //足回り
