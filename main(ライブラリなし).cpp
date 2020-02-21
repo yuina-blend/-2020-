@@ -75,6 +75,7 @@ int main()
             {
                 pc.printf("\t%d", send_datas[i]);
             }
+            pc.printf("\tforward");
         }
         else if (controller_axis < -5)
         {
@@ -87,6 +88,7 @@ int main()
             {
                 pc.printf("\t%d", send_datas[i]);
             }
+            pc.printf("back");
         }
         else
         {
