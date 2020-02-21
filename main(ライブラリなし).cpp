@@ -62,7 +62,6 @@ int main()
         {
             pc.printf("\t%d",rori_pulses[i]);
         }
-        pc.printf("\n");
         //足回り
         if (controller_axis > 5)
         {
@@ -72,6 +71,10 @@ int main()
                 send_datas[i] = controller_axis;
             }
             forward(send_datas);
+            for (int i=0; i<3; i+=1)
+            {
+                pc.printf("\t%d", send_datas[i]);
+            }
         }
         else if (controller_axis < -5)
         {
@@ -80,6 +83,10 @@ int main()
                 send_datas[i] = controller_axis;
             }
             back(send_datas);
+            for (int i=0; i<3; i+=1)
+            {
+                pc.printf("\t%d", send_datas[i]);
+            }
         }
         else
         {
@@ -98,6 +105,7 @@ int main()
         {
             send(0x40, 0x80);
         }
+    pc.printf("\n");
     }
 }
 
@@ -196,6 +204,7 @@ void forward(unsigned char *datas)
         data = datas[address % 0x10 - 1]; // 6~63
         data = (data / 63.0) * 124 + 132
         send(address, (unsigned char)data);
+        datas[address % 0x10 - 1] = (unsigned char)data;
     }
 }
 
@@ -207,6 +216,7 @@ void back(unsigned char *datas)
         data = datas[address % 0x10 - 1] * (-1.0)// -6~-64
         data = 124 - (data / 64.0) * 124
         send(address, (unsigned char)data);
+        datas[address % 0x10 - 1] = (unsigned char)data;
     }
 }
 
