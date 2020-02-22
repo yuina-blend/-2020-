@@ -222,15 +222,15 @@ void angle_right(unsigned char data)
 
 void Air_All_Justice(bool *air_result)
 {
-    if (air_result[0] == true && air_result[1] == true)
+    if (air_result[0] && air_result[1])
     {
         send(0x70, 0b0110);
     }
-    else if (air_result[0] == true && air_result[1] == false)
+    else if (air_result[0] && !air_result[1])
     {
         send(0x70, 0b0010);
     }
-    else if (air_result[0] == false && air_result[1] == true)
+    else if (!air_result[0] && air_result[1])
     {
         send(0x70, 0b0100);
     }
