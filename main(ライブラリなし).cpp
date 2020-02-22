@@ -46,7 +46,7 @@ void angle_right(unsigned char);
 
 int main()
 {
-    int controller_axis;
+    float controller_axis;
     int rori_pulses[4];
     int rori_difference;
     bool flag;
@@ -68,7 +68,7 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = controller_axis;
+                send_datas[i] = (unsigned char)(controller_axis*123.0/64.0);
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
@@ -81,7 +81,7 @@ int main()
         {
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = controller_axis;
+                send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0)));
             }
             back(send_datas);
             for (int i=0; i<3; i+=1)
@@ -203,10 +203,8 @@ void forward(unsigned char *datas)
     float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        data = datas[address % 0x10 - 1]; // 6~63
-        data = (data / 63.0) * 124 + 132;
-        send(address, (unsigned char)data);
-        datas[address % 0x10 - 1] = (unsigned char)data;
+        data = datas[address % 0x10 - 1];
+        send(address, data+132);
     }
 }
 
@@ -215,10 +213,8 @@ void back(unsigned char *datas)
     float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        data = datas[address % 0x10 - 1] * (-1.0); // -6~-64
-        data = 124 - (data / 64.0) * 124;
-        send(address, (unsigned char)data);
-        datas[address % 0x10 - 1] = (unsigned char)data;
+        data = datas[address % 0x10 - 1]
+        send(address, data);
     }
 }
 
