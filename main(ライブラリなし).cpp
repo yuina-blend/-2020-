@@ -213,7 +213,7 @@ void back(unsigned char *datas)
     float data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
-        data = datas[address % 0x10 - 1]
+        data = datas[address % 0x10 - 1];
         send(address, data);
     }
 }
