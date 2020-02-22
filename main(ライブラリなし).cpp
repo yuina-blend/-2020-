@@ -51,6 +51,7 @@ int main()
     int rori_difference;
     bool flag;
     unsigned char send_datas[3];
+    float limit=0.3;
     Emergency_stop = 0;
     while (true)
     {
@@ -68,7 +69,7 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)(controller_axis*123.0/64.0);
+                send_datas[i] = (unsigned char)(controller_axis*123.0/64.0*limit);
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
@@ -81,7 +82,7 @@ int main()
         {
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0)));
+                send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0))*limit);
             }
             back(send_datas);
             for (int i=0; i<3; i+=1)
@@ -95,11 +96,11 @@ int main()
             stop();
         }
         //角度調整
-        if (ps3.getButtonState(maru))
+        if (ps3.getButtonState(L1))
         {
             angle_left(0x70);
         }
-        else if (ps3.getButtonState(sikaku))
+        else if (ps3.getButtonState(R1))
         {
             angle_right(0x92);
         }
