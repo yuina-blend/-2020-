@@ -71,7 +71,8 @@ int main()
         }
         else if (controller_axis <= -20)
         {
-            // back();
+            set_duty(send_datas, 54, rori_difference, flag, 75);
+            back(send_datas);
         }
         else
         {
