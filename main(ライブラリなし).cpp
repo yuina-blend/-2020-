@@ -43,6 +43,7 @@ void back(unsigned char *);
 void stop();
 void angle_left(unsigned char);
 void angle_right(unsigned char);
+void Air_All_Justice(bool *);
 
 int main()
 {
@@ -52,16 +53,17 @@ int main()
     bool flag;
     unsigned char send_datas[3];
     float limit=0.1;
+    bool air_datas[2] = {false, false};
     Emergency_stop = 0;
     while (true)
     {
-        controller_axis = ps3.getLeftJoystickYaxis();
+        controller_axis = (float)ps3.getLeftJoystickYaxis();
         get_rori_pulses(rori_pulses);
         // flag = get_rori_difference(rori_pulses, &rori_difference);
         Emergency_check();
         for (int i = 0; i < 3; i++)
         {
-            pc.printf("\t%d",rori_pulses[i]);
+            pc.printf("\t%d", rori_pulses[i]);
         }
         //足回り
         if (controller_axis > 5)
@@ -69,14 +71,14 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)((controller_axis*123.0/64.0+132)*limit);
+                send_datas[i] = (unsigned char)((controller_axis*123.0/64.0)*limit+132);
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
             {
                 pc.printf("\t%d", send_datas[i]);
             }
-            pc.printf("\tforward");
+            pc.printf("\t[forward]");
         }
         else if (controller_axis < -5)
         {
@@ -89,7 +91,7 @@ int main()
             {
                 pc.printf("\t%d", send_datas[i]);
             }
-            pc.printf("back");
+            pc.printf("\t[back]");
         }
         else
         {
@@ -108,7 +110,19 @@ int main()
         {
             send(0x40, 0x80);
         }
-    pc.printf("\n");
+    pc.printf("\n")
+        //エアー
+        if (ps3.getButtonState(sankaku))
+        {
+            air_datas[0] = !air_datas[0];
+            wait_ms(500);
+        }
+        if (ps3.getButtonState(batu))
+        {
+            air_datas[1] = !air_datas[1];
+            wait_ms(500);
+        }
+        Air_All_Justice(air_datas);
     }
 }
 
@@ -201,7 +215,7 @@ void send(char md_address, unsigned char send_data)
 
 void forward(unsigned char *datas)
 {
-    float data;
+    unsigned char data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
         data = datas[address % 0x10 - 1];
@@ -211,7 +225,7 @@ void forward(unsigned char *datas)
 
 void back(unsigned char *datas)
 {
-    float data;
+    unsigned char data;
     for (char address = 0x10; address <= 0x30; address += 0x10)
     {
         data = datas[address % 0x10 - 1];
@@ -235,4 +249,24 @@ void angle_left(unsigned char data)
 void angle_right(unsigned char data)
 {
     send(0x40, data);
+}
+
+void Air_All_Justice(bool *air_result)
+{
+    if (air_result[0] && air_result[1])
+    {
+        send(0x70, 0b0110);
+    }
+    else if (air_result[0] && !air_result[1])
+    {
+        send(0x70, 0b0010);
+    }
+    else if (!air_result[0] && air_result[1])
+    {
+        send(0x70, 0b0100);
+    }
+    else
+    {
+        send(0x70, 0b0000);
+    }
 }
