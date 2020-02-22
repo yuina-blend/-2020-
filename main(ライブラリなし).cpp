@@ -43,6 +43,7 @@ void back(unsigned char *);
 void stop();
 void angle_left(unsigned char);
 void angle_right(unsigned char);
+void Air_All_Justice(bool *);
 
 int main()
 {
@@ -51,6 +52,7 @@ int main()
     int rori_difference;
     bool flag;
     unsigned char send_datas[3];
+    bool air_datas[2] = {false, false};
     Emergency_stop = 0;
     while (true)
     {
@@ -60,7 +62,7 @@ int main()
         Emergency_check();
         for (int i = 0; i < 3; i++)
         {
-            pc.printf("\t%d",rori_pulses[i]);
+            pc.printf("\t%d", rori_pulses[i]);
         }
         pc.printf("\n");
         //足回り
@@ -90,6 +92,18 @@ int main()
         {
             send(0x40, 0x80);
         }
+        //エアー
+        if (ps3.getButtonState(sankaku))
+        {
+            air_datas[0] = !air_datas[0];
+            wait_ms(500);
+        }
+        if (ps3.getButtonState(batu))
+        {
+            air_datas[1] = !air_datas[1];
+            wait_ms(500);
+        }
+        Air_All_Justice(air_datas);
     }
 }
 
@@ -204,4 +218,24 @@ void angle_left(unsigned char data)
 void angle_right(unsigned char data)
 {
     send(0x40, data);
+}
+
+void Air_All_Justice(bool *air_result)
+{
+    if (air_result[0] && air_result[1])
+    {
+        send(0x70, 0b0110);
+    }
+    else if (air_result[0] && !air_result[1])
+    {
+        send(0x70, 0b0010);
+    }
+    else if (!air_result[0] && air_result[1])
+    {
+        send(0x70, 0b0100);
+    }
+    else
+    {
+        send(0x70, 0b0000);
+    }
 }
