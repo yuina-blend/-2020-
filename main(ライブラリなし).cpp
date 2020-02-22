@@ -57,7 +57,7 @@ int main()
     Emergency_stop = 0;
     while (true)
     {
-        controller_axis = (float)ps3.getLeftJoystickYaxis();
+        controller_axis = ps3.getLeftJoystickYaxis();
         get_rori_pulses(rori_pulses);
         // flag = get_rori_difference(rori_pulses, &rori_difference);
         Emergency_check();
@@ -71,7 +71,8 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)((controller_axis*123.0/64.0)*limit+132);
+                // send_datas[i] = (unsigned char)((controller_axis*123.0/64.0)*limit+132);
+                send_datas[i] = 144;
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
@@ -84,7 +85,8 @@ int main()
         {
             for (int i=0; i<3; i+=1)
             {
-                send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0))*limit);
+                // send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0))*limit);
+                send_datas[i] = 110;
             }
             back(send_datas);
             for (int i=0; i<3; i+=1)
@@ -110,7 +112,7 @@ int main()
         {
             send(0x40, 0x80);
         }
-    pc.printf("\n")
+        pc.printf("\n");
         //エアー
         if (ps3.getButtonState(sankaku))
         {
