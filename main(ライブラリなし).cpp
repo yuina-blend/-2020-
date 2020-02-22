@@ -68,12 +68,13 @@ int main()
         //足回り
         if (controller_axis >= 20)
         {
-            set_duty(send_datas, 200, rori_difference, flag, 75);
+            set_duty(send_datas, 200, rori_difference, flag, 10000000);
             forward(send_datas);
         }
         else if (controller_axis <= -20)
         {
-            // back();
+            set_duty(send_datas, 54, rori_difference, flag, 10000000);
+            back(send_datas);
         }
         else
         {
