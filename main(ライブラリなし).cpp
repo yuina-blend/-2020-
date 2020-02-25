@@ -71,8 +71,7 @@ int main()
             // set_duty(send_datas, 200, rori_difference, flag, 75);
             for (int i=0; i<3; i+=1)
             {
-                // send_datas[i] = (unsigned char)((controller_axis*123.0/64.0)*limit+132);
-                send_datas[i] = 144;
+                send_datas[i] = (unsigned char)((controller_axis*123.0/64.0)*limit+132);
             }
             forward(send_datas);
             for (int i=0; i<3; i+=1)
@@ -85,8 +84,7 @@ int main()
         {
             for (int i=0; i<3; i+=1)
             {
-                // send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0))*limit);
-                send_datas[i] = 110;
+                send_datas[i] = (unsigned char)(124-(-1*(controller_axis/64.0*124.0))*limit);
             }
             back(send_datas);
             for (int i=0; i<3; i+=1)
