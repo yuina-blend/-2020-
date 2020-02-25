@@ -8,4 +8,3 @@
 
 :arrow_right: Arduinoを使ってI2Cとかやる:fu::fu::fu: ←いまココ
 
-<font size=6>※交ロボは中止になりました</font>
