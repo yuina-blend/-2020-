@@ -1,5 +1,6 @@
 #include <Wire.h>
 
+/* I2C系の関数 */
 void send(char md_address, unsigned char send_data)
 {
     delay(10);
@@ -32,6 +33,7 @@ void stop()
     }
 }
 
+/* エアー関係の関数 */
 void up_close()
 {
     send(0x38, 0b0100);
@@ -52,6 +54,8 @@ void down_open()
     send(0x38, 0b0010);
 }
 
+
+/* main */
 void setup()
 {
     Wire.begin();
