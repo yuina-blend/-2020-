@@ -8,6 +8,30 @@ void send(char md_address, unsigned char send_data)
     Wire.endTransmission();
 }
 
+void forward(bool slow)
+{
+    for (char address = 0x10; address <= 0x30; address += 0x10)
+    {
+        send(address, slow ? 0x90 : 0xC0);
+    }
+}
+
+void back(bool slow)
+{
+    for (char address = 0x10; address <= 0x30; address += 0x10)
+    {
+        send(address, slow ? 0x70 : 0x30);
+    }
+}
+
+void stop()
+{
+    for (char address = 0x10; address <= 0x30; address += 0x10)
+    {
+        send(address, 0x80);
+    }
+}
+
 void setup()
 {
     Wire.begin();
@@ -20,29 +44,36 @@ void loop()
     if (Serial.available())
     {
         hoge = Serial.read();
+        Serial.println(hoge);
         if (hoge == 'F')
         {
-            Serial.print("F");
-            for (char address=0x10; address<=0x40; address += 0x10)
-            {
-                send(address, 0x90);
-            }
+            forward(true);
         }
-        if (hoge == 'B')
+        else if (hoge == 'f')
         {
-            Serial.print("B");
-            for (char address=0x10; address<=0x40; address += 0x10)
-            {
-                send(address, 0x70);
-            }
+            forward(false);
         }
-        if (hoge == 'N')
+        else if (hoge == 'B')
         {
-            Serial.print("N");
-            for (char address=0x10; address<=0x40; address+=0x10)
-            {
-                send(address, 0x80);
-            }
+            back(true);
+        }
+        else if (hoge == 'b')
+        {
+            back(false);
+        }
+        else if (hoge == 'N')
+        {
+            stop();
+        }
+
+       /*以下は移動と関係なし*/
+        if (hoge == 'R')
+        {
+            send(0x40, 0xA0);
+        }
+        if (hoge == 'L')
+        {
+            send(0x40, 0x60);
         }
     }
 }
