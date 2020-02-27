@@ -9,7 +9,7 @@ void setup()
 
 void loop()
 {
-    for (char address = 0x10; address <= 0x40; address += 0x10)
+    for (char address = 0x20; address <= 0x80; address += 0x20)
     {
         send(address, 0xff);
     }
