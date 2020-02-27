@@ -34,8 +34,9 @@ DigitalOut led1(LED1);
 DigitalOut led2(LED2);
 DigitalOut led3(LED3);
 DigitalOut led4(LED4);
+DigitalOut em_pin(p21);
 
-Serial mypc(USBTX, USBRX);
+//Serial mypc(USBTX, USBRX);
 Serial wii(p9, p10);
 
 char send_data;
@@ -149,7 +150,22 @@ public:
                 int button_minus = (pad & 4096);
                 int button_home = (pad & 32768); //緊急停止 E
 
-                if (button_1)
+                if (button_1 && button_B)
+                {
+                    send_data = 'f';
+                    wii.putc(send_data);
+                }
+                else if (button_2 && button_B)
+                {
+                    send_data = 'b';
+                    wii.putc(send_data);
+                }
+                else if (button_home)
+                {
+                    em_pin = !em_pin;
+                    wait_ms(500);
+                }
+                else if (button_1)
                 {
                     send_data = 'F';
                     wii.putc(send_data);
