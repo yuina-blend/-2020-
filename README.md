@@ -7,4 +7,3 @@
 
 
 :arrow_right: Arduinoを使ってI2Cとかやる:fu::fu::fu: ←いまココ
-
