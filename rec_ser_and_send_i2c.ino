@@ -32,6 +32,26 @@ void stop()
     }
 }
 
+void up_close()
+{
+    send(0x38, 0b0100);
+}
+
+void up_open()
+{
+    send(0x38, 0b0110);
+}
+
+void down_close()
+{
+    send(0x38, 0b0000);
+}
+
+void down_open()
+{
+    send(0x38, 0b0010);
+}
+
 void setup()
 {
     Wire.begin();
@@ -39,6 +59,9 @@ void setup()
 }
 
 char hoge;
+bool down_now=true, close_now=true;
+
+
 void loop()
 {
     if (Serial.available())
@@ -72,9 +95,53 @@ void loop()
         {
             send(0x40, 0xA0);
         }
-        if (hoge == 'L')
+        else if (hoge == 'L')
         {
             send(0x40, 0x60);
+        }
+
+
+        if (hoge == 'U')
+        {
+            if (down_now&&close_now)
+            {
+                up_close();
+            }
+            else if (down_now&&!close_now)
+            {
+                up_open();
+            }
+            else if (!down_now&&close_now)
+            {
+                down_close();
+            }
+            else
+            {
+                down_open();
+            }
+            down_now = !down_now;
+            delay(500);
+        }
+        if (hoge == 'O')
+        {
+            if (down_now&&close_now)
+            {
+                down_open();
+            }
+            else if (down_now&&!close_now)
+            {
+                down_close();
+            }
+            else if (!down_now&&close_now)
+            {
+                up_open();
+            }
+            else
+            {
+                up_close();
+            }
+            close_now = !close_now;
+            delay(500);
         }
     }
 }
