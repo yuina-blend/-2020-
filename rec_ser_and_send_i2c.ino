@@ -64,6 +64,7 @@ void loop()
         else if (hoge == 'N')
         {
             stop();
+            send(0x40, 0x80);
         }
 
        /*以下は移動と関係なし*/
