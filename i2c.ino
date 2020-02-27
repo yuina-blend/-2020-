@@ -18,7 +18,7 @@ void loop()
 void send(char md_address, unsigned char send_data)
 {
     delay(10);
-    Wire.beginTransmission(address);
+    Wire.beginTransmission(md_address);
     Wire.write(0xff);
     Wire.endTransmission();
 }
