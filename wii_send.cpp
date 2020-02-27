@@ -159,22 +159,22 @@ public:
                     send_data = 'B';
                     wii.putc(send_data);
                 }
-                else if (button_up)
+                else if (button_left)
                 {
                     send_data = 'L';
                     wii.putc(send_data);
                 }
-                else if (button_down)
+                else if (button_right)
                 {
                     send_data = 'R';
                     wii.putc(send_data);
                 }
-                else if (button_right)
+                else if (button_up)
                 {
                     send_data = 'U';
                     wii.putc(send_data);
                 }
-                else if (button_left)
+                else if (button_down)
                 {
                     send_data = 'O';
                     wii.putc(send_data);
